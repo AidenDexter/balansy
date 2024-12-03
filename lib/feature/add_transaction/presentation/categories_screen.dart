@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/resources/assets.gen.dart';
 import '../../../core/services/database_service/database_service.dart';
@@ -26,15 +27,7 @@ class CategoriesScreenState extends State<CategoriesScreen> {
         title: const Text('Categories'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => showDialog(
-            context: context,
-            builder: (parameters) {
-              return AddCategoryAlertDialog(
-                  category: _category,
-                  titleController: _titleController,
-                  databaseService: _databaseService,
-                  descriptionController: _descriptionController);
-            }),
+        onPressed: _openAddCategoryDialog,
         child: const Icon(Icons.add),
       ),
       body: FutureBuilder(
@@ -55,70 +48,140 @@ class CategoriesScreenState extends State<CategoriesScreen> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               final category = snapshot.data![index];
-              final item = snapshot.data![index];
-              return Dismissible(
-                key: Key(item.id.toString()),
-                onDismissed: (direction) {
-                  direction == DismissDirection.startToEnd
-                      ? _databaseService.deleteCategory(category.id)
-                      :
-                      //TODO: добавить возможность редактирования
-                      _databaseService.deleteCategory(category.id);
-                  setState(() {});
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '${item.title} dismissed',
-                      ),
-                    ),
-                  );
-                },
-                background: Container(
-                  alignment: Alignment.centerLeft,
-                  color: Colors.red,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 22),
-                    child: Assets.icons.bin.svg(),
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                child: Row(children: [
+                  Column(
+                    children: [
+                      Text(category.title),
+                      Text(category.description),
+                    ],
                   ),
-                ),
-                secondaryBackground: Container(
-                  alignment: Alignment.centerRight,
-                  color: Colors.green,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 22),
-                    child: Assets.icons.pencilUiWhite.svg(),
-                  ),
-                ),
-                child: ListTile(
-                  onLongPress: () {
-                    setState(() {
-                      _databaseService.deleteCategory(category.id);
-                    });
-                  },
-                  title: Text(category.title),
-                  subtitle: Text(category.description),
-                  trailing: Checkbox(
+                  const Spacer(),
+                  IconButton(onPressed: () => _openEditCategoryDialog(category), icon: const Icon(Icons.edit)),
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _databaseService.deleteCategory(category.id);
+                        });
+                      },
+                      icon: const Icon(Icons.highlight_remove_sharp)),
+                  Checkbox(
                     value: category.status == 1,
                     onChanged: (value) async {
                       await _databaseService.updateCategoryStatus(
                         category.id,
                         value! ? 1 : 0,
                       );
-
                       setState(() {
                         category.status = value ? 1 : 0;
                       });
-                      debugPrint(
-                        '@@@@@@@@@@@@@ Checkbox value changed to $value',
-                      );
+                      debugPrint('Checkbox value changed to $value');
                     },
                   ),
-                ),
+                ]),
               );
             },
           );
         },
       ),
+    );
+  }
+
+  /// Открывает диалог добавления новой категории
+  void _openAddCategoryDialog() {
+    _titleController.clear();
+    _descriptionController.clear();
+    showDialog(
+      context: context,
+      builder: (parameters) {
+        return AlertDialog(
+          actions: [
+            TextButton(
+              onPressed: () {
+                context.pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                _category
+                  ..description = _descriptionController.text
+                  ..title = _titleController.text;
+                _databaseService.addCategory(_category.title, _category.description);
+                setState(() {
+                  _databaseService.updateCategories(_category.id, _category.title, _category.description);
+                });
+                context.pop();
+                _titleController.clear();
+                _descriptionController.clear();
+                // final result = await _categoryService.saveCategory(_category);
+                // debugPrint(result.toString());
+              },
+              child: const Text('Save'),
+            ),
+          ],
+          title: const Text('Categories Form'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  controller: _titleController,
+                  decoration: const InputDecoration(hintText: 'Write a category', labelText: 'Category'),
+                ),
+                TextField(
+                  controller: _descriptionController,
+                  decoration: const InputDecoration(hintText: 'Write a description', labelText: 'Description'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _openEditCategoryDialog(Category category) {
+    _titleController.text = category.title;
+    _descriptionController.text = category.description;
+
+    showDialog(
+      context: context,
+      builder: (parameters) {
+        return AlertDialog(
+          title: const Text('Edit Category'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(labelText: 'Title'),
+              ),
+              TextField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(labelText: 'Description'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: context.pop,
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                category
+                  ..title = _titleController.text
+                  ..description = _descriptionController.text;
+                _databaseService.updateCategory(category);
+                setState(() {});
+                context.pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

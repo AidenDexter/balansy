@@ -71,12 +71,46 @@ class DatabaseService {
     return result;
   }
 
-  Future<void> deleteCategory(int id) async {
+  Future<int> updateCategories(int id, String title, String? description) async {
     final db = await database;
-    await db.delete(
+
+    final data = {
+      _categoryTitleColumnName: title,
+      _categoryDescriptionColumnName: description,
+    };
+
+    final result = await db.update(
       _categoryTableName,
+      data,
       where: 'id = ?',
       whereArgs: [id],
     );
+
+    return result;
+  }
+
+  Future<int> updateCategory(Category category) async {
+    final db = await database;
+    return await db.update(
+      'categories', // Имя таблицы
+      category.categoryMap(),
+      where: 'id = ?', // Условие по ID
+      whereArgs: [category.id],
+    );
+  }
+
+  Future<void> deleteCategory(int id) async {
+    final db = await database;
+    try {
+      await db.delete(
+        _categoryTableName,
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    } on Exception catch (error) {
+      debugPrint(
+        'Something went wrong when deleting a category:$error ',
+      );
+    }
   }
 }
