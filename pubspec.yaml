@@ -1,0 +1,74 @@
+name: balansy
+description: 'A new modern budgeting app that helps you track expenses, manage savings, and ease achieve financial balance.'
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  #bloc
+  flutter_bloc: ^8.1.6
+
+  # Service Locator
+  get_it: ^8.0.2
+  injectable: ^2.5.0
+
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  # Local Storage
+  sqflite: ^2.4.1
+  path: any
+
+  # Splash
+  flutter_native_splash: ^2.4.3
+
+  # Widgets
+  flutter_svg: ^2.0.16
+  flutter_animate: ^4.5.2
+  nested: ^1.0.0
+  fl_chart: ^0.69.2
+
+  # Navigation
+  go_router: ^14.6.1
+
+  # Code-generation
+  retrofit: ^4.4.1
+  freezed_annotation: ^2.4.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Code generation
+  build_runner: ^2.4.13
+  freezed: ^2.5.7
+  retrofit_generator: ^9.1.5
+  flutter_gen_runner: ^5.8.0
+  injectable_generator: ^2.6.2
+  flutter_launcher_icons: ^0.14.1
+
+  # Lint rules
+  surf_lint_rules: ^3.1.0
+
+flutter_gen:
+  output: lib/core/resources/
+  line_length: 120
+
+  # Optional
+  integrations:
+    flutter_svg: true
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/icons/
+    - assets/images/
+    - assets/nav_bar/
