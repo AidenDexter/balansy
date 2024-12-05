@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../feature/add_transaction/presentation/add_transaction.dart';
+import '../../feature/transactions/presentation/categories/categories_screen.dart';
+import '../../feature/transactions/presentation/add_transaction/add_transaction_page.dart';
 import '../../feature/root/presentation/root_page.dart';
 import '../../feature/statistic/presentation/statistic_screen.dart';
-import '../../feature/transaction_list/presentation/transaction_list.dart';
+import '../../feature/home/presentation/home_page.dart';
 import 'routes_enum.dart';
-import '../../../feature/add_transaction/presentation/categories_screen.dart';
 
 part 'routes/add_transaction_routes.dart';
 part 'routes/categories_routes.dart';

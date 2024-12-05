@@ -1,23 +1,14 @@
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../../feature/add_transaction/domain/entity/category.dart';
+import '../../constants/sqflite_constants.dart';
 
+@LazySingleton()
 class DatabaseService {
   static const dbName = 'balancy_db.db';
   static const dbVersion = 1;
   static Database? _db;
-
-  static final DatabaseService instance = DatabaseService._constructor();
-
-  DatabaseService._constructor();
-
-  final String _categoryTableName = 'categories';
-  final String _categoryIdColumnName = 'id';
-  final String _categoryTitleColumnName = 'title';
-  final String _categoryDescriptionColumnName = 'description';
-  final String _categoryStatusColumnName = 'status';
 
   Future<Database> get database async {
     if (_db != null) return _db!;
@@ -29,88 +20,60 @@ class DatabaseService {
     final databaseDirPath = await getDatabasesPath();
     final databasePath = join(databaseDirPath, dbName);
     final database = await openDatabase(version: dbVersion, databasePath, onCreate: (db, version) {
-      db.execute('''
-      CREATE TABLE $_categoryTableName (
-      $_categoryIdColumnName INTEGER PRIMARY KEY, 
-      $_categoryTitleColumnName TEXT NOT NULL, 
-      $_categoryDescriptionColumnName TEXT NOT NULL,
-      $_categoryStatusColumnName INTEGER NOT NULL DEFAULT 0
+      db
+        ..execute('''
+      CREATE TABLE ${SQFLiteConstants.categoryTableName} (
+      ${SQFLiteConstants.ctgIdColumnName} INTEGER PRIMARY KEY, 
+      ${SQFLiteConstants.ctgTitleColumnName} TEXT NOT NULL, 
+      ${SQFLiteConstants.ctgDescriptionColumnName} TEXT NOT NULL,
+      ${SQFLiteConstants.ctgStatusColumnName} INTEGER NOT NULL DEFAULT 0
       )
-       ''');
+       ''')
+        ..execute('''
+        CREATE TABLE ${SQFLiteConstants.transactionTableName}(
+        ${SQFLiteConstants.trIdColumnName} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${SQFLiteConstants.trTypeColumnName} TEXT NOT NULL, -- "income" или "expense"
+        ${SQFLiteConstants.trAmountColumnName} REAL NOT NULL,
+        ${SQFLiteConstants.trCategoryIdColumnName} INTEGER NOT NULL,
+        ${SQFLiteConstants.trDescriptionColumnName} TEXT NOT NULL,
+        ${SQFLiteConstants.trDateColumnName}TEXT NOT NULL,
+        FOREIGN KEY (${SQFLiteConstants.trCategoryIdColumnName}) REFERENCES ${SQFLiteConstants.categoryTableName} (${SQFLiteConstants.ctgIdColumnName})
+        )
+      ''');
     });
+
     return database;
   }
 
-  Future<void> addCategory(String title, String description) async {
+  // Общие запросы к базе данных
+  Future<int> insert(String table, Map<String, dynamic> data) async {
     final db = await database;
-    await db.insert(_categoryTableName, {
-      _categoryTitleColumnName: title,
-      _categoryDescriptionColumnName: description,
-    });
-    debugPrint("addCategory $title $description");
+    return db.insert(table, data);
   }
 
-  Future<List<Category>> getCategories() async {
+  Future<int> update(String table, Map<String, dynamic> data, String where, List<Object?>? whereArgs) async {
     final db = await database;
-    final data = await db.query(_categoryTableName);
-
-    return data.map(Category.fromMap).toList();
-  }
-
-  Future<int> updateCategoryStatus(int id, int status) async {
-    final db = await database;
-    final result = await db.update(
-      _categoryTableName,
-      {
-        _categoryStatusColumnName: status,
-      },
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-
-    return result;
-  }
-
-  Future<int> updateCategories(int id, String title, String? description) async {
-    final db = await database;
-
-    final data = {
-      _categoryTitleColumnName: title,
-      _categoryDescriptionColumnName: description,
-    };
-
-    final result = await db.update(
-      _categoryTableName,
+    return db.update(
+      table,
       data,
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-
-    return result;
-  }
-
-  Future<int> updateCategory(Category category) async {
-    final db = await database;
-    return await db.update(
-      'categories', // Имя таблицы
-      category.categoryMap(),
-      where: 'id = ?', // Условие по ID
-      whereArgs: [category.id],
+      where: where,
+      whereArgs: whereArgs,
     );
   }
 
-  Future<void> deleteCategory(int id) async {
+  Future<int> delete(String table, String where, List<Object?>? whereArgs) async {
     final db = await database;
-    try {
-      await db.delete(
-        _categoryTableName,
-        where: 'id = ?',
-        whereArgs: [id],
-      );
-    } on Exception catch (error) {
-      debugPrint(
-        'Something went wrong when deleting a category:$error ',
-      );
-    }
+    return db.delete(
+      table,
+      where: where,
+      whereArgs: whereArgs,
+    );
+  }
+
+  Future<List<Map<String, Object?>>> query(String table, {String? where, List<Object?>? whereArgs}) async {
+    final db = await database;
+    return db.query(
+      table,
+    );
   }
 }

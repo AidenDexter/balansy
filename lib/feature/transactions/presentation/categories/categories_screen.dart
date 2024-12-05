@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/resources/assets.gen.dart';
-import '../../../core/services/database_service/database_service.dart';
-import '../domain/entity/category.dart';
-import 'components/add_category_alert_dialog.dart';
+import '../../bloc/categories.dart';
+import '../../domain/entity/category.dart';
+import 'categories_scope.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -16,38 +16,25 @@ class CategoriesScreen extends StatefulWidget {
 class CategoriesScreenState extends State<CategoriesScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _category = Category();
-  // var _categoryService = CategoryService();
-  final DatabaseService _databaseService = DatabaseService.instance;
 
   @override
   Widget build(BuildContext context) {
+    // Получаем сервис из DI
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Categories'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _openAddCategoryDialog,
+        onPressed: () => _openAddCategoryDialog(),
         child: const Icon(Icons.add),
       ),
-      body: FutureBuilder(
-        future: _databaseService.getCategories(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text('No categories available.'),
-            );
-          }
+      body: BlocBuilder<CategoriesBloc, CategoriesState>(
+        builder: (context, state) {
           return ListView.builder(
-            itemCount: snapshot.data!.length,
+            itemCount: state.categories.length,
             itemBuilder: (context, index) {
-              final category = snapshot.data![index];
+              final category = state.categories[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                 child: Row(children: [
@@ -61,24 +48,22 @@ class CategoriesScreenState extends State<CategoriesScreen> {
                   IconButton(onPressed: () => _openEditCategoryDialog(category), icon: const Icon(Icons.edit)),
                   IconButton(
                       onPressed: () {
-                        setState(() {
-                          _databaseService.deleteCategory(category.id);
-                        });
+                        CategoriesScope.delete(context, category.id);
                       },
                       icon: const Icon(Icons.highlight_remove_sharp)),
-                  Checkbox(
-                    value: category.status == 1,
-                    onChanged: (value) async {
-                      await _databaseService.updateCategoryStatus(
-                        category.id,
-                        value! ? 1 : 0,
-                      );
-                      setState(() {
-                        category.status = value ? 1 : 0;
-                      });
-                      debugPrint('Checkbox value changed to $value');
-                    },
-                  ),
+                  // Checkbox(
+                  //   value: category.status == 1,
+                  //   onChanged: (value) async {
+                  //     await _categoryService.updateCategoryStatus(
+                  //       category.id,
+                  //       value! ? 1 : 0,
+                  //     );
+                  //     setState(() {
+                  //       category.status = value ? 1 : 0;
+                  //     });
+                  //     debugPrint('Checkbox value changed to $value');
+                  //   },
+                  // ),
                 ]),
               );
             },
@@ -88,7 +73,6 @@ class CategoriesScreenState extends State<CategoriesScreen> {
     );
   }
 
-  /// Открывает диалог добавления новой категории
   void _openAddCategoryDialog() {
     _titleController.clear();
     _descriptionController.clear();
@@ -104,19 +88,12 @@ class CategoriesScreenState extends State<CategoriesScreen> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () async {
-                _category
-                  ..description = _descriptionController.text
-                  ..title = _titleController.text;
-                _databaseService.addCategory(_category.title, _category.description);
-                setState(() {
-                  _databaseService.updateCategories(_category.id, _category.title, _category.description);
-                });
+              onPressed: () {
+                CategoriesScope.add(
+                    context, Category(description: _descriptionController.text, title: _titleController.text));
                 context.pop();
                 _titleController.clear();
                 _descriptionController.clear();
-                // final result = await _categoryService.saveCategory(_category);
-                // debugPrint(result.toString());
               },
               child: const Text('Save'),
             ),
@@ -169,13 +146,17 @@ class CategoriesScreenState extends State<CategoriesScreen> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () async {
-                category
-                  ..title = _titleController.text
-                  ..description = _descriptionController.text;
-                _databaseService.updateCategory(category);
-                setState(() {});
+              onPressed: () {
+                CategoriesScope.update(
+                    context,
+                    Category(
+                      description: _descriptionController.text,
+                      title: _titleController.text,
+                      id: category.id,
+                    ));
                 context.pop();
+                _titleController.clear();
+                _descriptionController.clear();
               },
               child: const Text('Save'),
             ),

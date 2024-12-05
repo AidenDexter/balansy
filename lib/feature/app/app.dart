@@ -4,23 +4,23 @@ import 'package:nested/nested.dart';
 
 import '../../core/router/app_router.dart';
 import '../../core/services/service_locator/service_locator.dart';
+import '../transactions/presentation/add_transaction/add_transaction_scope.dart';
+import '../transactions/presentation/categories/categories_scope.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return
-        // Nested(
-        //   children: [],
-        //   child:
-        // );
-        const _MaterialApp();
+    return Nested(children: const [
+      AddTransactionScope(),
+      CategoriesScope(),
+    ], child: const _MaterialApp());
   }
 }
 
 class _MaterialApp extends StatefulWidget {
-  const _MaterialApp({Key? key}) : super(key: key);
+  const _MaterialApp();
 
   @override
   _MaterialAppState createState() => _MaterialAppState();

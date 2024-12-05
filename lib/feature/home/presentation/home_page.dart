@@ -1,37 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/routes_enum.dart';
-import '../../add_transaction/domain/entity/transaction.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: TransactionList(),
-  ));
-}
-
-class TransactionList extends StatefulWidget {
-  const TransactionList({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  _TransactionListState createState() => _TransactionListState();
+  HomePageState createState() => HomePageState();
 }
 
-class _TransactionListState extends State<TransactionList> {
-  List<Transaction> transactions = [];
-
-  void _clearTransactions() {
-    setState(() {
-      transactions.clear();
-    });
-  }
-
-  void _deleteTransaction(int index) {
-    setState(() {
-      transactions.removeAt(index);
-    });
-  }
-
+class HomePageState extends State<HomePage> {
   void _editTransaction(int index) {
     //TODO: Логика редактирования транзакции
     showDialog(
@@ -62,9 +42,7 @@ class _TransactionListState extends State<TransactionList> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.menu),
-          onPressed: () {
-            //TODO: Логика для открытия бокового меню
-          },
+          onPressed: () {},
         ),
         title: const Text('Welcome'),
       ),
@@ -88,23 +66,22 @@ class _TransactionListState extends State<TransactionList> {
             const SizedBox(height: 16),
             // Clear button
             ElevatedButton(
-              onPressed: _clearTransactions,
+              onPressed: () {},
               child: const Text('Clear All Transactions'),
             ),
             const SizedBox(height: 16),
             // List of transactions
             Expanded(
               child: ListView.builder(
-                itemCount: transactions.length,
+                itemCount: 1,
                 itemBuilder: (context, index) {
-                  final transaction = transactions[index];
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     elevation: 4,
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(16),
-                      title: Text(transaction.name),
-                      subtitle: Text('${transaction.date} | ${transaction.type}'),
+                      title: Text(' d'),
+                      subtitle: Text('{date} | {type}'),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -114,7 +91,7 @@ class _TransactionListState extends State<TransactionList> {
                           ),
                           IconButton(
                             icon: const Icon(Icons.delete),
-                            onPressed: () => _deleteTransaction(index),
+                            onPressed: () => () {},
                           ),
                         ],
                       ),
