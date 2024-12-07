@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../feature/transactions/domain/entity/my_transaction.dart';
-import '../../constants/sqflite_constants.dart';
+import '../../constants/db_fields.dart';
 import '../database_service/database_service.dart';
 import 'i_transaction_service.dart';
 
@@ -14,7 +14,7 @@ class TransactionService implements ITransactionService {
   // Работа с транзакциями
   @override
   Future<void> createTransaction(MyTransaction transaction) async {
-    await _databaseService.insert(SQFLiteConstants.transactionTableName, transaction.toMap());
+    await _databaseService.insert(DBFields.transactionTable, transaction.toMap());
     debugPrint('addCategory ${transaction
       ..amount
       ..description}');
@@ -22,7 +22,7 @@ class TransactionService implements ITransactionService {
 
   @override
   Future<List<MyTransaction>> readTransactions() async {
-    final result = await _databaseService.query(SQFLiteConstants.transactionTableName);
+    final result = await _databaseService.query(DBFields.transactionTable);
 
     return result.map(MyTransaction.fromMap).toList();
   }
@@ -30,9 +30,9 @@ class TransactionService implements ITransactionService {
   @override
   Future<int> updateTransaction(MyTransaction transaction) async {
     return _databaseService.update(
-      SQFLiteConstants.transactionTableName,
+      DBFields.transactionTable,
       transaction.toMap(),
-      '${SQFLiteConstants.trIdColumnName} = ?',
+      '${DBFields.transactionId} = ?',
       [transaction.id],
     );
   }
@@ -41,8 +41,8 @@ class TransactionService implements ITransactionService {
   Future<void> deleteTransaction(int id) async {
     try {
       await _databaseService.delete(
-        SQFLiteConstants.transactionTableName,
-        '${SQFLiteConstants.trIdColumnName} = ?',
+        DBFields.transactionTable,
+        '${DBFields.transactionId} = ?',
         [id],
       );
     } on Exception catch (error) {
@@ -55,8 +55,8 @@ class TransactionService implements ITransactionService {
   @override
   Future<List<MyTransaction>> filterTransactionsByType(MyTransaction transaction) async {
     final result = await _databaseService.query(
-      SQFLiteConstants.transactionTableName,
-      where: '${SQFLiteConstants.trTypeColumnName} = ?',
+      DBFields.transactionTable,
+      where: '${DBFields.transactionType} = ?',
       whereArgs: [transaction.type.name],
     );
     return result.map(MyTransaction.fromMap).toList();
@@ -65,8 +65,8 @@ class TransactionService implements ITransactionService {
   @override
   Future<List<MyTransaction>> filterTransactionsByDate(MyTransaction transaction) async {
     final result = await _databaseService.query(
-      SQFLiteConstants.transactionTableName,
-      where: '${SQFLiteConstants.trDateColumnName} = ?',
+      DBFields.transactionTable,
+      where: '${DBFields.transactionDate} = ?',
       whereArgs: [transaction.date],
     );
     return result.map(MyTransaction.fromMap).toList();
@@ -75,8 +75,8 @@ class TransactionService implements ITransactionService {
   @override
   Future<List<MyTransaction>> filterTransactionsByCategory(MyTransaction transaction) async {
     final result = await _databaseService.query(
-      SQFLiteConstants.transactionTableName,
-      where: '${SQFLiteConstants.trCategoryIdColumnName} = ?',
+      DBFields.transactionTable,
+      where: '${DBFields.transactionCategoryId} = ?',
       whereArgs: [transaction.date],
     );
     return result.map(MyTransaction.fromMap).toList();

@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../constants/sqflite_constants.dart';
+import '../../constants/db_fields.dart';
 
 @LazySingleton()
 class DatabaseService {
@@ -22,22 +22,22 @@ class DatabaseService {
     final database = await openDatabase(version: dbVersion, databasePath, onCreate: (db, version) {
       db
         ..execute('''
-      CREATE TABLE ${SQFLiteConstants.categoryTableName} (
-      ${SQFLiteConstants.ctgIdColumnName} INTEGER PRIMARY KEY, 
-      ${SQFLiteConstants.ctgTitleColumnName} TEXT NOT NULL, 
-      ${SQFLiteConstants.ctgDescriptionColumnName} TEXT NOT NULL,
-      ${SQFLiteConstants.ctgStatusColumnName} INTEGER NOT NULL DEFAULT 0
+      CREATE TABLE ${DBFields.categoryTable} (
+      ${DBFields.categoryId} INTEGER PRIMARY KEY, 
+      ${DBFields.categoryTitle} TEXT NOT NULL, 
+      ${DBFields.categoryDescription} TEXT NOT NULL,
+      ${DBFields.categoryStatus} INTEGER NOT NULL DEFAULT 0
       )
        ''')
         ..execute('''
-        CREATE TABLE ${SQFLiteConstants.transactionTableName}(
-        ${SQFLiteConstants.trIdColumnName} INTEGER PRIMARY KEY AUTOINCREMENT,
-        ${SQFLiteConstants.trTypeColumnName} TEXT NOT NULL, -- "income" или "expense"
-        ${SQFLiteConstants.trAmountColumnName} REAL NOT NULL,
-        ${SQFLiteConstants.trCategoryIdColumnName} INTEGER NOT NULL,
-        ${SQFLiteConstants.trDescriptionColumnName} TEXT NOT NULL,
-        ${SQFLiteConstants.trDateColumnName}TEXT NOT NULL,
-        FOREIGN KEY (${SQFLiteConstants.trCategoryIdColumnName}) REFERENCES ${SQFLiteConstants.categoryTableName} (${SQFLiteConstants.ctgIdColumnName})
+        CREATE TABLE ${DBFields.transactionTable}(
+        ${DBFields.transactionId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${DBFields.transactionType} TEXT NOT NULL, -- "income" или "expense"
+        ${DBFields.transactionAmount} REAL NOT NULL,
+        ${DBFields.transactionCategoryId} INTEGER NOT NULL,
+        ${DBFields.transactionDescription} TEXT NOT NULL,
+        ${DBFields.transactionDate}TEXT NOT NULL,
+        FOREIGN KEY (${DBFields.transactionCategoryId}) REFERENCES ${DBFields.categoryTable} (${DBFields.categoryId})
         )
       ''');
     });
