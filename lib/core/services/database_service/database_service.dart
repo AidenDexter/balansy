@@ -36,7 +36,7 @@ class DatabaseService {
         ${DBFields.transactionAmount} REAL NOT NULL,
         ${DBFields.transactionCategoryId} INTEGER NOT NULL,
         ${DBFields.transactionDescription} TEXT NOT NULL,
-        ${DBFields.transactionDate}TEXT NOT NULL,
+        ${DBFields.transactionDate} TEXT NOT NULL,
         FOREIGN KEY (${DBFields.transactionCategoryId}) REFERENCES ${DBFields.categoryTable} (${DBFields.categoryId})
         )
       ''');
