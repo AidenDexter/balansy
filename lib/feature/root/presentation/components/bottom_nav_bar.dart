@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/resources/assets.gen.dart';
 import '../bottom_navigation_scope.dart';
 
@@ -13,37 +14,30 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
+    const navBarHeight = Sizes.p64; //TODO: как избавиться от необходимости вручную задавать высоту нижнего бара?
     return Stack(
       children: [
         Container(
+          height: navBarHeight,
           decoration: const BoxDecoration(color: Colors.amber),
           padding: EdgeInsets.only(bottom: bottomPadding),
           margin: const EdgeInsets.only(top: 20),
-          child: SizedBox(
-            height: 64,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _NavBarItem(
-                  onTap: (index) => BottomNavigationScope.change(context, index),
-                  index: 0,
-                  currentIndex: currentIndex,
-                  asset: Assets.navBar.wallet,
-                ),
-                _NavBarItem(
-                  onTap: (index) => BottomNavigationScope.change(context, index),
-                  index: 1,
-                  currentIndex: currentIndex,
-                  asset: Assets.navBar.insight,
-                ),
-                _NavBarItem(
-                  onTap: (index) => BottomNavigationScope.change(context, index),
-                  index: 2,
-                  currentIndex: currentIndex,
-                  asset: Assets.navBar.insight,
-                ),
-              ],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _NavBarItem(
+                onTap: (index) => BottomNavigationScope.change(context, index),
+                index: 0,
+                currentIndex: currentIndex,
+                asset: Assets.navBar.home,
+              ),
+              _NavBarItem(
+                onTap: (index) => BottomNavigationScope.change(context, index),
+                index: 1,
+                currentIndex: currentIndex,
+                asset: Assets.navBar.insight,
+              ),
+            ],
           ),
         )
       ],

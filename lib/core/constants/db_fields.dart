@@ -1,13 +1,13 @@
 class DBFields {
   // Общие имена для таблиц
-  static const transactionTable = 'transaction';
+  static const transactionTable = 'transactions';
   static const categoryTable = 'category';
 
   // Поля таблицы транзакций
   static const transactionId = 'id';
   static const transactionAmount = 'amount';
   static const transactionCategoryId = 'categoryId';
-  static const transactionType = 'type';
+  static const transactionType = 'transactionType';
   static const transactionDescription = 'description';
   static const transactionDate = 'date';
 

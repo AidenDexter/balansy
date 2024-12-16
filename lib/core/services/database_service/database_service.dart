@@ -6,7 +6,7 @@ import '../../constants/db_fields.dart';
 
 @LazySingleton()
 class DatabaseService {
-  static const dbName = 'balancy_db.db';
+  static const dbName = 'balansy_db.db';
   static const dbVersion = 1;
   static Database? _db;
 
@@ -23,7 +23,7 @@ class DatabaseService {
       db
         ..execute('''
       CREATE TABLE ${DBFields.categoryTable} (
-      ${DBFields.categoryId} INTEGER PRIMARY KEY, 
+      ${DBFields.categoryId} INTEGER PRIMARY KEY AUTOINCREMENT, 
       ${DBFields.categoryTitle} TEXT NOT NULL, 
       ${DBFields.categoryDescription} TEXT NOT NULL,
       ${DBFields.categoryStatus} INTEGER NOT NULL DEFAULT 0
@@ -32,7 +32,7 @@ class DatabaseService {
         ..execute('''
         CREATE TABLE ${DBFields.transactionTable}(
         ${DBFields.transactionId} INTEGER PRIMARY KEY AUTOINCREMENT,
-        ${DBFields.transactionType} TEXT NOT NULL, -- "income" или "expense"
+        ${DBFields.transactionType} TEXT NOT NULL,
         ${DBFields.transactionAmount} REAL NOT NULL,
         ${DBFields.transactionCategoryId} INTEGER NOT NULL,
         ${DBFields.transactionDescription} TEXT NOT NULL,
@@ -48,7 +48,11 @@ class DatabaseService {
   // Общие запросы к базе данных
   Future<int> insert(String table, Map<String, dynamic> data) async {
     final db = await database;
-    return db.insert(table, data);
+    return db.insert(
+      table,
+      data,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<int> update(String table, Map<String, dynamic> data, String where, List<Object?>? whereArgs) async {

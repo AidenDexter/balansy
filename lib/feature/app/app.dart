@@ -4,8 +4,9 @@ import 'package:nested/nested.dart';
 
 import '../../core/router/app_router.dart';
 import '../../core/services/service_locator/service_locator.dart';
-import '../transactions/presentation/add_transaction/add_transaction_scope.dart';
 import '../transactions/presentation/categories/categories_scope.dart';
+import '../transactions/presentation/edit_transaction_page/edit_transaction_scope.dart';
+import '../transactions/presentation/transactions/transactions_scope.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -13,8 +14,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Nested(children: const [
-      AddTransactionScope(),
+      EditTransactionScope(),
       CategoriesScope(),
+      TransactionsScope(),
     ], child: const _MaterialApp());
   }
 }

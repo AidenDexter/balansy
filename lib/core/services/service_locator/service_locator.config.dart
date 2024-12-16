@@ -11,20 +11,18 @@
 import 'package:balansy/core/router/app_router.dart' as _i785;
 import 'package:balansy/core/services/database_service/database_service.dart'
     as _i17;
-import 'package:balansy/core/services/transaction_service/i_transaction_service.dart'
-    as _i1040;
-import 'package:balansy/core/services/transaction_service/transaction_service.dart'
-    as _i1033;
 import 'package:balansy/feature/transactions/data/data_source/categories_local_db.dart'
     as _i33;
+import 'package:balansy/feature/transactions/data/data_source/transaction_local_db.dart'
+    as _i738;
 import 'package:balansy/feature/transactions/data/repository/categories_repository.dart'
     as _i762;
 import 'package:balansy/feature/transactions/data/repository/transaction_repository.dart'
     as _i70;
-import 'package:balansy/feature/transactions/domain/repository/i_add_transaction_repository.dart'
-    as _i241;
 import 'package:balansy/feature/transactions/domain/repository/i_category_repository.dart'
     as _i406;
+import 'package:balansy/feature/transactions/domain/repository/i_transaction_repository.dart'
+    as _i350;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -43,14 +41,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i17.DatabaseService>(() => _i17.DatabaseService());
     gh.factory<_i33.ICategoriesLocalDB>(
         () => _i33.CategoriesLocalDB(gh<_i17.DatabaseService>()));
-    gh.lazySingleton<_i1040.ITransactionService>(
-        () => _i1033.TransactionService(gh<_i17.DatabaseService>()));
     await gh.singletonAsync<_i406.ICategoriesRepository>(
       () => _i762.CategoriesRepository.init(gh<_i33.ICategoriesLocalDB>()),
       preResolve: true,
     );
-    gh.lazySingleton<_i241.INewTransactionRepository>(
-        () => _i70.NewTransactionRepository(gh<_i1040.ITransactionService>()));
+    gh.singleton<_i738.ITransactionLocalDb>(
+        () => _i738.TransactionLocalDB(gh<_i17.DatabaseService>()));
+    await gh.singletonAsync<_i350.ITransactionRepository>(
+      () => _i70.TransactionRepository.init(gh<_i738.ITransactionLocalDb>()),
+      preResolve: true,
+    );
     return this;
   }
 }

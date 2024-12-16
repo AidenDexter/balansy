@@ -51,7 +51,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   Future<void> _add(_AddCategoryEvent event, Emitter<CategoriesState> emit) async {
     emit(CategoriesState.progress(categories: state.categories));
     try {
-      await _repository.createCategory(event.category);
+      await _repository.create(event.category);
       emit(CategoriesState.success(categories: state.categories));
     } on Exception catch (e) {
       emit(CategoriesState.error(categories: state.categories, error: 'Failed to add category: $e'));
@@ -63,7 +63,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   Future<void> _delete(_DeleteCategoryEvent event, Emitter<CategoriesState> emit) async {
     emit(CategoriesState.progress(categories: state.categories));
     try {
-      await _repository.deleteCategory(event.id);
+      await _repository.delete(event.id);
       emit(CategoriesState.success(categories: state.categories));
     } on Exception catch (e) {
       emit(CategoriesState.error(categories: state.categories, error: 'Failed to delete category: $e'));
@@ -75,7 +75,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   Future<void> _update(_UpdateCategoryEvent event, Emitter<CategoriesState> emit) async {
     emit(CategoriesState.progress(categories: state.categories));
     try {
-      await _repository.updateCategory(event.category);
+      await _repository.update(event.category);
       emit(CategoriesState.success(categories: state.categories));
     } on Exception catch (e) {
       emit(CategoriesState.error(categories: state.categories, error: 'Failed to update category: $e'));

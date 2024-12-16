@@ -1,4 +1,4 @@
-part of '../add_transaction_page.dart';
+part of '../edit_transaction_page.dart';
 
 class TransactionTypeWidget extends StatelessWidget {
   final ValueNotifier<TransactionType> transactionTypeController;

@@ -4,12 +4,12 @@ const _transactionListRoutesKey = '/transaction_list_routes/';
 const _commonRoutesKey = '/common_routes/';
 const _categoriesRoutesKey = '/category_routes/';
 
-enum AddTransactionRoutes {
+enum EditTransactionRoutes {
   add(path: '${_addTransactionKey}addTransaction');
 
   final String path;
 
-  const AddTransactionRoutes({
+  const EditTransactionRoutes({
     required this.path,
   });
 }

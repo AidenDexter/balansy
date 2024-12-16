@@ -22,19 +22,13 @@ class CategoriesRepository implements ICategoriesRepository {
   }
 
   @override
-  Future<void> createCategory(Category category) async {
-    await _categoriesLocalDb.create(category);
-    _categoriesStream.add([..._categories, category]);
+  Future<void> create(Category category) async {
+    final categoryFromDB = await _categoriesLocalDb.create(category);
+    _categoriesStream.add([..._categories, categoryFromDB]);
   }
 
   @override
-  Future<void> deleteCategory(int id) async {
-    await _categoriesLocalDb.delete(id);
-    _categoriesStream.add(List.from(_categories)..removeWhere((e) => e.id == id));
-  }
-
-  @override
-  Future<void> updateCategory(Category category) async {
+  Future<void> update(Category category) async {
     final index = _categories.indexWhere((e) => e.id == category.id);
     if (index == -1) return;
 
@@ -44,6 +38,12 @@ class CategoriesRepository implements ICategoriesRepository {
         ..removeAt(index)
         ..insert(index, category),
     );
+  }
+
+  @override
+  Future<void> delete(int id) async {
+    await _categoriesLocalDb.delete(id);
+    _categoriesStream.add(List.from(_categories)..removeWhere((e) => e.id == id));
   }
 
   @override

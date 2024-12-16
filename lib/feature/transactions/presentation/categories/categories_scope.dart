@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
@@ -18,6 +19,11 @@ class CategoriesScope extends SingleChildStatelessWidget {
 
   static void update(BuildContext context, Category category) =>
       context.read<CategoriesBloc>().add(CategoriesEvent.update(category: category));
+
+  static Category? fetchCategory(BuildContext context, int id) {
+    final categories = context.watch<CategoriesBloc>().state.categories;
+    return categories.firstWhereOrNull((e) => e.id == id);
+  }
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(

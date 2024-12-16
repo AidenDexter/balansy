@@ -14,6 +14,4 @@ class Palette {
   final cardDefault = const Color(0xffF8F8F8);
   final cardCurrent = const Color(0xffE33C3C);
   final cardActive = const Color(0xffE3823C);
-
-  const Palette();
 }

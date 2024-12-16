@@ -7,9 +7,9 @@ import '../entity/category.dart';
 abstract interface class ICategoriesRepository {
   BehaviorSubject<List<Category>> get categories;
 
-  Future<void> createCategory(Category category);
-  Future<void> updateCategory(Category category);
-  Future<void> deleteCategory(int id);
+  Future<void> create(Category category);
+  Future<void> update(Category category);
+  Future<void> delete(int id);
 
   void dispose();
 }

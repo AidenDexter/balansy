@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/app_sizes.dart';
+
 class StatisticScreen extends StatelessWidget {
   final double totalIncome = 5000; // Общий доход
   final double totalExpense = 3200; // Общие расходы
@@ -31,7 +33,7 @@ class StatisticScreen extends StatelessWidget {
               'Total Statistics',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+            gapH16,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -39,13 +41,13 @@ class StatisticScreen extends StatelessWidget {
                 _buildStatisticCard('Expense', totalExpense, Colors.red),
               ],
             ),
-            const SizedBox(height: 32),
+            gapH32,
             // Заголовок для графика
             const Text(
               'Expenses by Categories',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+            gapH16,
             // Круговая диаграмма
             Expanded(
               child: PieChart(
@@ -77,7 +79,7 @@ class StatisticScreen extends StatelessWidget {
               title,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            gapH8,
             Text(
               '\$${amount.toStringAsFixed(2)}',
               style: TextStyle(fontSize: 18, color: color, fontWeight: FontWeight.bold),
