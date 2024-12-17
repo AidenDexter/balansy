@@ -1,5 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import '../../../../core/constants/db_fields.dart';
+import 'dart:convert';
 
 class Category {
   final int? id;
@@ -14,18 +13,19 @@ class Category {
 
   // Преобразование объекта Category в Map для сохранения в DB
   Map<String, Object?> toMap() {
-    return {
-      DBFields.categoryTitle: title,
-      DBFields.categoryDescription: description,
+    return <String, Object?>{
+      'id': id,
+      'title': title,
+      'description': description,
     };
   }
 
   // Преобразование из Map в объект Category
   factory Category.fromMap(Map<String, Object?> map) {
     return Category(
-      id: map[DBFields.categoryId] as int? ?? 0, // Безопасное извлечение данных
-      title: map[DBFields.categoryTitle] as String? ?? '',
-      description: map[DBFields.categoryDescription] as String? ?? '',
+      id: map['id'] as int?,
+      title: map['title'] as String,
+      description: map['description'] as String,
     );
   }
 
@@ -40,4 +40,8 @@ class Category {
       description: description ?? this.description,
     );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory Category.fromJson(String source) => Category.fromMap(json.decode(source) as Map<String, Object?>);
 }
