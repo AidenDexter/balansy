@@ -92,6 +92,7 @@ class StatisticScreen extends StatelessWidget {
 
   /// Формирование секций для круговой диаграммы
   List<PieChartSectionData> _buildChartSections(Map<String, double> data) {
+    // ignore: omit_local_variable_types
     final double total = data.values.fold(0, (sum, value) => sum + value);
 
     return data.entries.map((entry) {

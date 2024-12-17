@@ -46,7 +46,7 @@ class DatabaseService {
   }
 
   // Общие запросы к базе данных
-  Future<int> insert(String table, Map<String, dynamic> data) async {
+  Future<int> insert(String table, Map<String, Object?> data) async {
     final db = await database;
     return db.insert(
       table,
@@ -55,7 +55,7 @@ class DatabaseService {
     );
   }
 
-  Future<int> update(String table, Map<String, dynamic> data, String where, List<Object?>? whereArgs) async {
+  Future<int> update(String table, Map<String, Object?> data, String where, List<Object?>? whereArgs) async {
     final db = await database;
     return db.update(
       table,
