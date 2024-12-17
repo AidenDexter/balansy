@@ -68,7 +68,7 @@ class _NavBarItem extends StatelessWidget {
       child: Ink(
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          // color: isSelected ? colors.green10 : colors.neutralgrey3,
+          // color: isSelected ? colors.green: colors.grey,
         ),
         // padding: const EdgeInsets.all(),
         child: asset.svg(
