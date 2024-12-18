@@ -42,7 +42,7 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // Загружаем транзакцию только если передан ее по ID
+    // Загружаем транзакцию только если передан ее ID
     if (widget.transactionId != null) {
       final transaction = TransactionsScope.fetchTransaction(context, widget.transactionId!);
       if (transaction != null) {
@@ -100,26 +100,25 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
               gapH20,
               Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () => context.push(
-                      CategoriesRoutes.category.path,
-                      extra: _selectedCategory,
-                    ),
-                  ),
                   Expanded(
                     child: GestureDetector(
-                      child: ValueListenableBuilder(
-                        valueListenable: _selectedCategory,
-                        builder: (_, value, __) {
-                          return Text(value?.title ?? 'Select Category');
-                        },
-                      ),
-                      onTap: () => context.push(
-                        CategoriesRoutes.category.path,
-                        extra: _selectedCategory,
-                      ),
-                    ),
+                        child: ValueListenableBuilder(
+                          valueListenable: _selectedCategory,
+                          builder: (_, category, __) {
+                            return ListTile(
+                              title: Text('Category ${category?.title}' ?? 'Select Category'),
+                              trailing: const Icon(Icons.arrow_forward),
+                            );
+                          },
+                        ),
+                        onTap: () async {
+                          final selected = await context.push<Category>(
+                            CategoriesRoutes.category.path,
+                          );
+                          if (selected != null) {
+                            _selectedCategory.value = selected;
+                          }
+                        }),
                   ),
                 ],
               ),

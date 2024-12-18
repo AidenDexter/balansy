@@ -6,8 +6,6 @@ import 'package:injectable/injectable.dart';
 import '../../feature/home/presentation/home_page.dart';
 import '../../feature/root/presentation/root_page.dart';
 import '../../feature/statistic/presentation/statistic_screen.dart';
-import '../../feature/transactions/domain/entity/category.dart';
-import '../../feature/transactions/domain/entity/category_codec.dart';
 import '../../feature/transactions/presentation/categories/categories_screen.dart';
 import '../../feature/transactions/presentation/edit_transaction_page/edit_transaction_page.dart';
 import 'routes_enum.dart';
@@ -34,7 +32,6 @@ class AppRouter {
           ..._categoriesRoutes
         ],
         errorBuilder: (_, state) => Placeholder(key: state.pageKey),
-        extraCodec: const ValueNotifierCategoryCodec(),
       );
 }
 

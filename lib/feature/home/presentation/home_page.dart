@@ -135,7 +135,7 @@ class _DataLayer extends StatelessWidget {
                           Text('type: ${transaction.type.title}'),
                           Text('id: ${transaction.id}'),
                           Text(
-                            'category: ${CategoriesScope.fetchCategory(context, transaction.categoryId)?.title ?? 'error with loading category'}',
+                            'category: ${CategoriesScope.fetchCategory(context, transaction.categoryId)?.title ?? 'error with category'}',
                           ),
                           Text('Dt: $date'),
                         ],

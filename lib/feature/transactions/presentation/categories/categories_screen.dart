@@ -7,8 +7,7 @@ import '../../domain/entity/category.dart';
 import 'categories_scope.dart';
 
 class CategoriesScreen extends StatefulWidget {
-  final ValueNotifier<Category?> selectedCategory;
-  const CategoriesScreen({required this.selectedCategory, super.key});
+  const CategoriesScreen({super.key});
 
   @override
   CategoriesScreenState createState() => CategoriesScreenState();
@@ -46,8 +45,7 @@ class CategoriesScreenState extends State<CategoriesScreen> {
               final category = state.categories[index];
               return GestureDetector(
                 onTap: () {
-                  widget.selectedCategory.value = category;
-                  context.pop();
+                  context.pop(category);
                 },
                 child: Card(
                   child: Padding(
@@ -55,10 +53,17 @@ class CategoriesScreenState extends State<CategoriesScreen> {
                     child: Row(
                       children: [
                         Column(
-                          children: [Text(category.title), Text(category.description), Text('id - ${category.id}')],
+                          children: [
+                            Text(category.title),
+                            Text(category.description),
+                            Text('id - ${category.id}'),
+                          ],
                         ),
                         const Spacer(),
-                        IconButton(onPressed: () => _openEditCategoryDialog(category), icon: const Icon(Icons.edit)),
+                        IconButton(
+                          onPressed: () => _openEditCategoryDialog(category),
+                          icon: const Icon(Icons.edit),
+                        ),
                         IconButton(
                           onPressed: () {
                             CategoriesScope.delete(context, category.id!);
