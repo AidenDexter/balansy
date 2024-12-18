@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_field_initializers_in_const_classes
 part of 'app_theme.dart';
 
 class _Typography {

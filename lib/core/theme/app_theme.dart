@@ -11,7 +11,7 @@ const _commonColors = CommonColors();
 const _typography = _Typography();
 final _commonTextStyles = CommonTextStyles();
 final _appBarThemes = _AppBarThemes();
-const _durations = AnimationDurations();
+final _durations = AnimationDurations();
 
 abstract class AppTheme {
   static ThemeData get lightThemeData => _lightThemeData;
