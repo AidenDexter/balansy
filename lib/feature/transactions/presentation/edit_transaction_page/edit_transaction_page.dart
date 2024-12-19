@@ -106,7 +106,7 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
                           valueListenable: _selectedCategory,
                           builder: (_, category, __) {
                             return ListTile(
-                              title: Text('Category ${category?.title}' ?? 'Select Category'),
+                              title: Text(category?.title ?? 'Select Category'),
                               trailing: const Icon(Icons.arrow_forward),
                             );
                           },
