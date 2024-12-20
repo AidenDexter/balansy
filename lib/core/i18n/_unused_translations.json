@@ -1,0 +1,32 @@
+{
+  "@@info": [
+    "Here are translations that exist in secondary locales but not in <ru>.",
+    "[--full enabled] Furthermore, translations not used in 'lib/' according to the 't.<path>' pattern are written into <ru>."
+  ],
+  "ru": {
+    "search": "Поиск",
+    "clear": "Очистить",
+    "yes": "Да",
+    "no": "Нет",
+    "add_description": "Добавить описание",
+    "statistic": "Статистика",
+    "expense": "Расходы",
+    "new_category": "Новая категория",
+    "all_categories": "Все категории",
+    "currency": "Валюта",
+    "payment_method": "Способ оплаты",
+    "about_app": "О приложении",
+    "available_balance": "Доступная сумма",
+    "limit_has_been_exceeded": "Превышен установленный лимит",
+    "you_can_spend_x": "Вы можете потратить {amount}",
+    "today_is_x_and_you_spent_x": "Сегодня {todays_date} и вы потратили: {spent_amount}",
+    "daily": "За день",
+    "monthly": "За месяц",
+    "yearly": "За год",
+    "welcome": "Добро пожаловать",
+    "available_price": "Доступная цена",
+    "expenses_by_categories": "Расходы по категориям",
+    "date": "Дата"
+  },
+  "en": {}
+}

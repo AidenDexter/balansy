@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_sizes.dart';
+import '../../../../core/i18n/translations/translations.g.dart';
 import '../../../../core/router/routes_enum.dart';
 import '../../domain/entity/category.dart';
 import '../../domain/entity/my_transaction.dart';
@@ -72,7 +73,7 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.transactionId != null ? 'Update Transaction' : 'Add Transaction'),
+        title: Text(widget.transactionId != null ? t.updateTransaction : t.addTransaction),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
@@ -90,11 +91,11 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
               gapH20,
               TextField(
                 controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Title'),
+                decoration: InputDecoration(labelText: t.title),
               ),
               TextField(
                 controller: _amountController,
-                decoration: const InputDecoration(labelText: 'amount'),
+                decoration: InputDecoration(labelText: t.amount),
               ),
               DateWidget(selectedDateNotifier: _selectedDateNotifier),
               gapH20,
@@ -106,7 +107,7 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
                           valueListenable: _selectedCategory,
                           builder: (_, category, __) {
                             return ListTile(
-                              title: Text(category?.title ?? 'Select Category'),
+                              title: Text(category?.title ?? t.selectCategory),
                               trailing: const Icon(Icons.arrow_forward),
                             );
                           },
@@ -156,11 +157,11 @@ class _EditTransactionPageState extends State<EditTransactionPage> {
                     Navigator.pop(context);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please fill all fields')),
+                      SnackBar(content: Text(t.pleaseFillAllFields)),
                     );
                   }
                 },
-                child: Text(widget.transactionId != null ? 'Save' : 'Create'),
+                child: Text(widget.transactionId != null ? t.save : t.create),
               ),
             ],
           ),

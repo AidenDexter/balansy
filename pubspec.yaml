@@ -21,6 +21,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  slang: ^4.4.0
+  slang_flutter: ^4.4.0
 
   # Local Storage
   sqflite: ^2.4.1
@@ -53,6 +55,7 @@ dev_dependencies:
   # Code generation
   build_runner: ^2.4.13
   freezed: ^2.5.7
+  slang_build_runner: ^4.4.0
   retrofit_generator: ^9.1.5
   flutter_gen_runner: ^5.8.0
   injectable_generator: ^2.6.2
@@ -76,3 +79,6 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/nav_bar/
+
+flutter_intl:
+  enabled: true

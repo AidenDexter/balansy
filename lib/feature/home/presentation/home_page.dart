@@ -2,11 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../core/constants/app_sizes.dart';
+import '../../../core/i18n/translations/translations.g.dart';
 import '../../../core/resources/assets.gen.dart';
 import '../../../core/router/routes_enum.dart';
+import '../../../core/utils/date_formatter.dart';
 import '../../transactions/bloc/transactions.dart';
 import '../../transactions/domain/entity/my_transaction.dart';
 import '../../transactions/presentation/categories/categories_scope.dart';
@@ -32,7 +33,7 @@ class HomePageState extends State<HomePage> {
           icon: const Icon(Icons.menu),
           onPressed: () {},
         ),
-        title: const Text('Welcome'),
+        title: Text(t.totalBalance),
       ),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
         builder: (context, state) {
@@ -78,7 +79,7 @@ class _EmptyLayout extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(50),
             child: Text(
-              'Problem to show:$state',
+              t.problemToShowX(state: state),
               textAlign: TextAlign.center,
             ),
           ),
@@ -99,29 +100,25 @@ class _DataLayer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Available Price',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
               gapH8,
               Text(
-                r'$here will be a sum of all transactions',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                '\$ ${t.amount} - 332322',
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               gapH16
             ],
           ),
-          const Text('Мои транзакции', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(t.myTransactions, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           gapH16,
           Expanded(
             child: ListView.separated(
                 itemCount: transactions.length,
                 itemBuilder: (context, index) {
                   final transaction = transactions[index];
-                  final date = DateFormat('dd/MM/yyyy').format(transaction.date);
+                  final dateFormatted = kDateFormatter.format(transaction.date);
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     elevation: 4,
@@ -135,9 +132,9 @@ class _DataLayer extends StatelessWidget {
                           Text('type: ${transaction.type.title}'),
                           Text('id: ${transaction.id}'),
                           Text(
-                            'category: ${CategoriesScope.fetchCategory(context, transaction.categoryId)?.title ?? 'error with category'}',
+                            'category: ${CategoriesScope.fetchCategory(context, transaction.categoryId)?.title ?? 'error with fetchCategory'}',
                           ),
-                          Text('Dt: $date'),
+                          Text('Dt: $dateFormatted'),
                         ],
                       ),
                       trailing: Row(

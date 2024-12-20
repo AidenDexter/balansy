@@ -1,5 +1,0 @@
-arb-dir: lib/core/l10n
-template-arb-file: app_ru.arb
-output-localization-file: app_localization.g.dart
-synthetic-package: false
-# flutter gen-l10n

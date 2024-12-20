@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../core/i18n/translations/translations.g.dart';
+
 class DateWidget extends StatelessWidget {
   const DateWidget({
     required ValueNotifier<DateTime> selectedDateNotifier,
@@ -18,7 +20,7 @@ class DateWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Date: ${DateFormat.yMMMd().format(selectedDate)}',
+                  '${t.date}: ${DateFormat.yMMMd().format(selectedDate)}',
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -34,7 +36,7 @@ class DateWidget extends StatelessWidget {
                     _selectedDateNotifier.value = pickedDate;
                   }
                 },
-                child: const Text('Select Date'),
+                child: Text(t.selectDate),
               ),
             ],
           );

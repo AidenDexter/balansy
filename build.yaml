@@ -1,0 +1,35 @@
+targets:
+  $default:
+    builders:
+      slang_build_runner:
+        options:
+          base_locale: ru # базовый язык
+          fallback_strategy: base_locale # в случае ошибки возвращаемся к базовой локали
+          input_directory: lib/core/i18n # путь хранения переводов
+          input_file_pattern: .i18n.json
+          output_directory: lib/core/i18n/translations # путь генерации переводов
+          output_file_name: translations.g.dart
+          lazy: true
+          locale_handling: true
+          flutter_integration: true
+          string_interpolation: braces # в json используем так: "Наш параметр {параметр}"
+          enumName: AppLocale # название enum локали
+          key_case: camel # именование переменных в соответствии со спецификацией dart
+          key_map_case: camel
+          param_case: camel
+          flat_map: false # нет необходимости в создании Map переводов
+          namespaces: false # удобство перевода постранично. Не используем.
+          translation_class_visibility: public
+          sanitization:
+            enabled: true
+            prefix: k
+            case: camel
+            string_interpolation: double_braces
+          format:
+            enabled: true
+            width: 120
+          obfuscation:
+            enabled: false
+          # secret: somekey # Обфускация строк: Если вы хотите защитить строки перевода: yaml Копировать код
+          timestamp: true
+          statistics: true

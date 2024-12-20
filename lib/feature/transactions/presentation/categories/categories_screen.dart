@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/i18n/translations/translations.g.dart';
 import '../../bloc/categories.dart';
 import '../../domain/entity/category.dart';
 import 'categories_scope.dart';
@@ -28,7 +29,7 @@ class CategoriesScreenState extends State<CategoriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories'),
+        title: Text(t.categories),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 60),
@@ -94,7 +95,7 @@ class CategoriesScreenState extends State<CategoriesScreen> {
               onPressed: () {
                 context.pop();
               },
-              child: const Text('Cancel'),
+              child: Text(t.cancel),
             ),
             TextButton(
               onPressed: () {
@@ -104,20 +105,20 @@ class CategoriesScreenState extends State<CategoriesScreen> {
                 _titleController.clear();
                 _descriptionController.clear();
               },
-              child: const Text('Save'),
+              child: Text(t.save),
             ),
           ],
-          title: const Text('Categories Form'),
+          title: Text(t.categoriesForm),
           content: SingleChildScrollView(
             child: Column(
               children: [
                 TextField(
                   controller: _titleController,
-                  decoration: const InputDecoration(hintText: 'Write a category', labelText: 'Category'),
+                  decoration: InputDecoration(hintText: t.writeACategory, labelText: t.category),
                 ),
                 TextField(
                   controller: _descriptionController,
-                  decoration: const InputDecoration(hintText: 'Write a description', labelText: 'Description'),
+                  decoration: InputDecoration(hintText: t.writeADescription, labelText: t.description),
                 ),
               ],
             ),
@@ -135,24 +136,24 @@ class CategoriesScreenState extends State<CategoriesScreen> {
       context: context,
       builder: (parameters) {
         return AlertDialog(
-          title: const Text('Edit Category'),
+          title: Text(t.editCategory),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Title'),
+                decoration: InputDecoration(labelText: t.title),
               ),
               TextField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
+                decoration: InputDecoration(labelText: t.description),
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: context.pop,
-              child: const Text('Cancel'),
+              child: Text(t.cancel),
             ),
             TextButton(
               onPressed: () {
@@ -167,7 +168,7 @@ class CategoriesScreenState extends State<CategoriesScreen> {
                 _titleController.clear();
                 _descriptionController.clear();
               },
-              child: const Text('Save'),
+              child: Text(t.save),
             ),
           ],
         );

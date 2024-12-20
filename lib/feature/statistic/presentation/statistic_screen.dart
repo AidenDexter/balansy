@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_sizes.dart';
+import '../../../core/i18n/translations/translations.g.dart';
 
 class StatisticScreen extends StatelessWidget {
   final double totalIncome = 5000; // Общий доход
@@ -21,32 +22,23 @@ class StatisticScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Statistics'),
+        title: Text(t.statistic),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Общая статистика
-            const Text(
-              'Total Statistics',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
             gapH16,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildStatisticCard('Income', totalIncome, Colors.green),
-                _buildStatisticCard('Expense', totalExpense, Colors.red),
+                _buildStatisticCard(t.income, totalIncome, Colors.green),
+                _buildStatisticCard(t.expense, totalExpense, Colors.red),
               ],
             ),
             gapH32,
             // Заголовок для графика
-            const Text(
-              'Expenses by Categories',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
             gapH16,
             // Круговая диаграмма
             Expanded(
