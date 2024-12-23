@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +11,7 @@ import '../../transactions/bloc/transactions.dart';
 import '../../transactions/domain/entity/my_transaction.dart';
 import '../../transactions/presentation/categories/categories_scope.dart';
 import '../../transactions/presentation/transactions/transactions_scope.dart';
+import 'components/add_transaction_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,20 +44,6 @@ class HomePageState extends State<HomePage> {
               error: (_, state) => _EmptyLayout(state));
         },
       ),
-    );
-  }
-}
-
-class AddTransactionButton extends StatelessWidget {
-  const AddTransactionButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      child: const Icon(Icons.add),
-      onPressed: () => context.push(EditTransactionRoutes.add.path),
     );
   }
 }
