@@ -5,9 +5,9 @@ import 'package:injectable/injectable.dart';
 
 import '../../feature/home/presentation/home_page.dart';
 import '../../feature/root/presentation/root_page.dart';
-import '../../feature/statistic/presentation/statistic_screen.dart';
 import '../../feature/transactions/presentation/categories/categories_screen.dart';
 import '../../feature/transactions/presentation/edit_transaction_page/edit_transaction_page.dart';
+import '../../feature/transactions/statistic/statistic_screen.dart';
 import 'routes_enum.dart';
 
 part 'routes/categories_routes.dart';

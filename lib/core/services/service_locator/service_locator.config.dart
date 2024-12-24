@@ -17,10 +17,14 @@ import 'package:balansy/feature/transactions/data/data_source/transaction_local_
     as _i738;
 import 'package:balansy/feature/transactions/data/repository/categories_repository.dart'
     as _i762;
+import 'package:balansy/feature/transactions/data/repository/statistic_repository.dart'
+    as _i779;
 import 'package:balansy/feature/transactions/data/repository/transaction_repository.dart'
     as _i70;
 import 'package:balansy/feature/transactions/domain/repository/i_category_repository.dart'
     as _i406;
+import 'package:balansy/feature/transactions/domain/repository/i_statistic_repository.dart'
+    as _i570;
 import 'package:balansy/feature/transactions/domain/repository/i_transaction_repository.dart'
     as _i350;
 import 'package:get_it/get_it.dart' as _i174;
@@ -47,6 +51,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i738.ITransactionLocalDb>(
         () => _i738.TransactionLocalDB(gh<_i17.DatabaseService>()));
+    await gh.singletonAsync<_i570.IStatisticRepository>(
+      () => _i779.StatisticRepository.init(gh<_i738.ITransactionLocalDb>()),
+      preResolve: true,
+    );
     await gh.singletonAsync<_i350.ITransactionRepository>(
       () => _i70.TransactionRepository.init(gh<_i738.ITransactionLocalDb>()),
       preResolve: true,

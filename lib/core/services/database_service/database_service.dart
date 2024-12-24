@@ -80,4 +80,9 @@ class DatabaseService {
       table,
     );
   }
+
+  Future<List<Map<String, Object?>>> rawQuery(String sql) async {
+    final db = await database;
+    return db.rawQuery(sql);
+  }
 }

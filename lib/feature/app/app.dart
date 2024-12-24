@@ -8,6 +8,7 @@ import '../../core/services/service_locator/service_locator.dart';
 import '../transactions/presentation/categories/categories_scope.dart';
 import '../transactions/presentation/edit_transaction_page/edit_transaction_scope.dart';
 import '../transactions/presentation/transactions/transactions_scope.dart';
+import '../transactions/statistic/statistic_scope.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -18,6 +19,7 @@ class App extends StatelessWidget {
       EditTransactionScope(),
       CategoriesScope(),
       TransactionsScope(),
+      StatisticScope(),
     ], child: const _MaterialApp());
   }
 }

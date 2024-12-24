@@ -10,7 +10,7 @@ abstract interface class ITransactionRepository {
   Future<void> create(MyTransaction transaction);
   Future<void> update(MyTransaction transaction);
   Future<void> delete(int id);
-
+//TODO: реализовать поиск по фильтрам
   Future<List<MyTransaction>> filterByType(MyTransaction transaction);
   Future<List<MyTransaction>> filterByDate(MyTransaction transaction);
   Future<List<MyTransaction>> filterByCategory(MyTransaction transaction);

@@ -96,7 +96,7 @@ class TranslationsEn extends Translations {
   @override
   String get welcome => 'Welcome';
   @override
-  String problemToShow({required Object state}) => 'Problem to show: ${state}';
+  String problemToShowX({required Object state}) => 'Problem to show: ${state}';
   @override
   String get availablePrice => 'Available price';
   @override

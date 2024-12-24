@@ -11,6 +11,7 @@ abstract interface class ITransactionLocalDb {
   Future<List<MyTransaction>> read();
   Future<int> update(MyTransaction transaction);
   Future<void> delete(int id);
+  Future<Map<DateTime, double>> getExpensesGroupedByDate();
 
   Future<List<MyTransaction>> filterByType(MyTransaction transaction);
   Future<List<MyTransaction>> filterByDate(MyTransaction transaction);
@@ -78,5 +79,19 @@ class TransactionLocalDB implements ITransactionLocalDb {
       whereArgs: [transaction.date],
     );
     return result.map(MyTransaction.fromMap).toList();
+  }
+
+  @override
+  Future<Map<DateTime, double>> getExpensesGroupedByDate() async {
+    final result = await _databaseService.rawQuery('''
+      SELECT ${DBFields.transactionDate}, SUM(${DBFields.transactionAmount}) AS total
+      FROM ${DBFields.transactionTable}
+      GROUP BY ${DBFields.transactionDate}
+      ORDER BY ${DBFields.transactionDate} ASC
+    ''');
+    return {
+      for (final item in result)
+        DateTime.parse((item as Map<String, dynamic>)['date'] as String): item['total'] as double
+    };
   }
 }

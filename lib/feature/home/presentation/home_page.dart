@@ -104,7 +104,7 @@ class _DataLayer extends StatelessWidget {
                 itemCount: transactions.length,
                 itemBuilder: (context, index) {
                   final transaction = transactions[index];
-                  final dateFormatted = kDateFormatter.format(transaction.date);
+                  final dateFormatted = DateFormatters.transactionCard.format(transaction.date);
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 8),
                     elevation: 4,
