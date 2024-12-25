@@ -24,8 +24,8 @@ class Category {
   factory Category.fromMap(Map<String, Object?> map) {
     return Category(
       id: map['id'] as int?,
-      title: map['title'] as String,
-      description: map['description'] as String,
+      title: map['title']! as String,
+      description: map['description']! as String,
     );
   }
 

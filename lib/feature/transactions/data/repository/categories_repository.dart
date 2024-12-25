@@ -24,7 +24,7 @@ class CategoriesRepository implements ICategoriesRepository {
   @override
   Future<void> create(Category category) async {
     final categoryFromDB = await _categoriesLocalDb.create(category);
-    _categoriesStream.add([..._categories, categoryFromDB]);
+    _categoriesStream.add([categoryFromDB, ..._categories]);
   }
 
   @override

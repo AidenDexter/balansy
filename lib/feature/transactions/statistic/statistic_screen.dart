@@ -28,7 +28,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
       ),
       body: BlocBuilder<StatisticBloc, StatisticState>(
         builder: (context, state) {
-          debugPrint('state ${state}');
+          debugPrint('state $state');
           return state.when(
               idle: (state) => _DataLayer(data: state),
               progress: () => const Center(child: Text('No Data')),
